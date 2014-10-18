@@ -1,0 +1,36 @@
+_BINDIR =	${DWBHOME}/${BINDIR}
+_LIBDIR =	${DWBHOME}/${LIBDIR}
+COMMONDIR =	../common
+PKGROOT =	../../../../..
+
+TARG =		tr2post
+
+OFILES =	tr2post.o chartab.o Bgetfield.o conv.o utils.o devcntl.o \
+		draw.o readDESC.o ps_include.o pictures.o
+
+CPPFLAGS =	-D'PROGRAMVERSION="0.1"' -D'DOROUND=1' -I$(COMMONDIR) \
+		-D'PROGRAMNAME="$(PROGRAMNAME)"' \
+		-I$(PKGROOT)/sys/include -D'TEMPDIR="$(TEMPDIR)"' \
+		-D'FONTDIR="$(DWBHOME)/$(FONTDIR)"' \
+		-D'POSTDIR="$(DWBHOME)/$(POSTDIR)"'
+
+_LDFLAGS =	-L${PKGROOT}/libcompat      -lcompat \
+		-L${PKGROOT}/sys/src/libc   -lc_p9   \
+		-L${PKGROOT}/sys/src/libbio -lbio    \
+		-L${_LIBDIR} -Wl,-rpath,${_LIBDIR}
+
+all:		$(TARG)
+
+clean:
+		rm -f $(OFILES) $(TARG)
+
+install:
+		@[ -d ${_BINDIR} ] || mkdir -p ${_BINDIR}
+		install ${TARG} ${_BINDIR}/
+
+uninstall:
+		rm -f ${_BINDIR}/${TARG}
+		@rmdir ${_BINDIR} 2> /dev/null || true
+
+$(TARG):	$(OFILES) $(COMMONDIR)/common.o
+		$(CC) -o $@ $(OFILES) $(COMMONDIR)/common.o ${_LDFLAGS}

@@ -1,4 +1,16 @@
-9front_troff
-============
+This is the troff version of 9front ported to UNIX (tested on OpenBSD, NetBSD and Linux amd64).
+To keep the code changes to a minimum the 9front libraries libbio and part of libc had also been ported.
 
-Port of 9front troff to UNIX
+The repository can be downloaded with the "Download ZIP" button or with
+```bash
+git clone https://github.com/n-t-roff/9front_troff.git
+```
+Installation paths are set up in the `Makefile`.
+The Software is then build with `make` and installed with `make install`.
+The directory `$(DWBHOME)/$(BINDIR)` should be added to shell `PATH` variable.
+
+Generated files are removed with `make clean`.
+The repository is kept up-to-date with `git pull`.
+
+If there are any problems please report them to the [issue tracker](https://github.com/n-t-roff/9front_troff/issues)
+or send a mail to &lt;troff [at] arcor [dot] de&gt;.
